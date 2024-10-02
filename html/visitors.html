@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>6조 방명록</title>
+    <meta name="title" content="6조 방명록" />
+    <meta name="description" content="6조 방명록">
+
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#reset').click(function () {
+                $('#nickname').val();
+                $('#password').val();
+                $('#message').val('');
+            });
+
+            $('#save').click(function () {
+                const nickname = $('#nickname').val();
+                const message = $('#message').val();
+                const date = new Date().toLocaleString();
+
+                if (nickname && message) {
+                    const newReply = `
+            <li>
+                <div class="writer"><strong>${nickname}</strong><span class="date">${date}</span></div>
+                <div class="content">${message}</div>
+                <div class="btn_wrap flex_box">
+                    <input type="password" class="form-control reply_pw" placeholder="비밀번호">
+                    <button type="button" class="btn btn-outline-primary pw_btn">수정</button>
+                    <button type="button" class="btn btn-outline-secondary pw_btn">삭제</button>
+                </div>
+            </li>`;
+
+                    $('#reply').prepend(newReply);
+
+                    $('#nickname').val();
+                    $('#password').val();
+                    $('#message').val('');
+                } else {
+                    alert('닉네임과 내용을 모두 입력해주세요.');
+                }
+            });
+
+            $('#reply').on('click', '.pw_btn', function () {
+                const action = $(this).text();
+                const replyItem = $(this).closest('li');
+                const passwordInput = replyItem.find('.reply_pw');
+
+                if (action === '삭제') {
+                    const password = passwordInput.val();
+                    replyItem.remove();
+                } else if (action === '수정') {
+                    const currentContent = replyItem.find('.content').text();
+                    const newContent = prompt('수정할 내용을 입력하세요:', currentContent);
+                    if (newContent) {
+                        replyItem.find('.content').text(newContent);
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header id="header" class="flex_box">
+        <h1 class="logo"><a href="index.html"><img src="../image/header_logo.png" alt="최강6조"></a></h1>
+        <nav>
+            <ul id="gnb">
+                <li><a href="members.html">팀원소개</a></li>
+                <li><a href="visitors.html">방명록</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section class="inner">
+            <div class="title_area">
+                <h2>방명록</h2>
+                <p>저희 팀에 남겨주실 말씀을 적어주세요</p>
+            </div>
+
+            <div id="write_reply">
+                <div class="top flex_box">
+                    <input type="text" class="form-control" id="nickname" placeholder="닉네임">
+                    <input type="password" class="form-control" id="password" placeholder="비밀번호">
+                </div>
+                <textarea class="form-control" id="message" placeholder="내용을 입력하세요!"></textarea>
+                <div class="btn_wrap flex_box">
+                    <button class="btn btn-secondary" id="reset">리셋</button>
+                    <button class="btn btn-primary" id="save">저장</button>
+                </div>
+            </div>
+
+            <ul id="reply">
+                <li>
+                    <div class="writer"><strong>작성자이름</strong><span class="date">2024-10-02 12:05:11</span></div>
+                    <div class="content">내용 내용 내용 내용 내용 내용</div>
+                    <div class="btn_wrap flex_box">
+                        <input type="password" class="form-control reply_pw" placeholder="비밀번호">
+                        <button type="button" class="btn btn-outline-primary pw_btn">수정</button>
+                        <button type="button" class="btn btn-outline-secondary pw_btn">삭제</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="writer"><strong>작성자이름</strong><span class="date">2024-10-02 12:05:11</span></div>
+                    <div class="content">내용 내용 내용 내용 내용 내용</div>
+                    <div class="btn_wrap flex_box">
+                        <input type="password" class="form-control reply_pw" placeholder="비밀번호">
+                        <button type="button" class="btn btn-outline-primary pw_btn">수정</button>
+                        <button type="button" class="btn btn-outline-secondary pw_btn">삭제</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
